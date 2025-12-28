@@ -1,17 +1,7 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, Environment, useGLTF } from "@react-three/drei";
 import { Suspense } from "react";
-
-function IpodModel() {
-  const gltf = useGLTF("/models/ipod.glb")
-  return (
-    <primitive 
-      object = {gltf.scene}
-      position = {[0, 0, 0]}
-      scale = {1}
-    />
-  );
-}
+import IpodModel from "./ipodModel";
 
 function App() {
   return ( 
@@ -21,7 +11,7 @@ function App() {
           <IpodModel />
           <Environment preset="sunset" />
         </Suspense>
-        <OrbitControls enableRotate={false} enableZoom={false} enablePan={false} autoRotate={false} />
+        <OrbitControls autoRotate={false} enableRotate={false} enableZoom={true} enablePan={true} />
 
       </Canvas>
     </div>
