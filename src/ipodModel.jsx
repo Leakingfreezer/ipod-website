@@ -3,29 +3,51 @@ import { useGLTF } from "@react-three/drei";
 import { Html } from "@react-three/drei";
 
 //Screen background
-function ScreenMenu({ ablumbs, selectedIndex, onSelect, OnOpen}) {
-    return (
-        <>
-            <Html transform position = {[0.03, 1.81, 0.11]} rotation = {[0,0,0]} distanceFactor={1}>
-                <div style={{
-                    width: 970,
-                    height: 760,
-                    backgroundImage: `url("/screen/bg.png")`,
-                    backgroundSize: "cover",
-                    borderRadius: 8,
-                    overflow: "hidden"
-                }}>
-                </div>    
-            </Html>
+function ScreenMenu({ albums = [], selectedIndex = 0, onSelect, onOpen }) {
+  return (
+    <Html transform position={[0.03, 1.81, 0.11]} rotation={[0, 0, 0]} distanceFactor={1}>
+        <div style={{ width: 970, height: 760, position: "relative", borderRadius: 8, overflow: "hidden",
+            backgroundImage: `url("/screen/bg.png")`, backgroundSize: "cover" }}>
 
-            <div className = "carousel" role = "list">
-
+            {/* carousel container */}
+            <div
+            role="list"
+            style={{
+                position: "absolute",
+                left: 60,
+                top: 120,
+                right: 60,
+                height: 520,
+                display: "flex",
+                gap: 20,
+                alignItems: "center",
+                overflow: "hidden",
+            }}
+            >
+            {(albums.length ? albums : new Array(6).fill(null)).slice(0, 6).map((a, i) => (
+                <div
+                key={a?.id ?? i}
+                role="listitem"
+                onClick={() => onSelect?.(i)}
+                onDoubleClick={() => onOpen?.(i)}
+                title={a?.name ?? `Album ${i + 1}`}
+                style={{
+                    width: 180,
+                    height: 180,
+                    borderRadius: 18,
+                    border: i === selectedIndex ? "4px solid white" : "2px solid rgba(255,255,255,0.5)",
+                    background: "rgba(255,255,255,0.12)",
+                    flex: "0 0 auto",
+                }}
+                />
+            ))}
             </div>
-
-
-        </>
-    );
+        </div>
+    </Html>
+  );
 }
+
+
 
 export default function IpodModel() {
     const { scene } = useGLTF("/models/ipod.glb");
